@@ -1,0 +1,55 @@
+addOneMachine.stateTransition = {
+    "start": { // Move to the right side of the number
+        // If we're in state "start" and see "0", then
+        // write "0", move to the right, and go to state
+        // "start"
+        "0": ["0", "right", "z"],
+        "1" : ["1", "right", "u"],
+        // If we're in state "start" and see "" (empty box),
+        // then write "", move to the left, and go to state
+        // "add"
+        "": ["", "right", "stop"]
+    },
+    "z": {
+        // 0 + 1 = 1. We're done adding because there's no
+        // carry
+        "0": ["0", "right", "zz"],
+        // 1 + 1 = 10 in binary. So, we need to write down
+        // "0" and carry the 1.
+        "1": ["1", "right", "zu"],
+        // We had to carry all the way to the left side of
+        // the number. Finish carrying.
+        "": ["", "right", "stop"]
+    },
+    "zz": {
+    // Move all the way to the leftmost digit of the number
+        "0": ["0", "right", "stop"],
+        "1": ["", "right", "stop"],
+        "": ["0", "right", "stop"]
+    },
+    "zu": {
+    // Move all the way to the leftmost digit of the number
+        "0": ["", "right", "stop"],
+        "1": ["1", "right", "stop"],
+        "": ["1", "right", "stop"]
+    },
+    "u": {
+    // Move all the way to the leftmost digit of the number
+        "0": ["0", "right", "zu"],
+        "1": ["1", "right", "uu"],
+        "": ["", "right", "stop"]
+    },
+    "uu": {
+    // Move all the way to the leftmost digit of the number
+        "0": ["", "right", "stop"],
+        "1": ["1", "right", "carry"],
+        "": ["1", "right", "carry"]
+    },
+    "carry": {
+    // Move all the way to the leftmost digit of the number
+        "0": ["0", "right", "stop"],
+        "1": ["", "right", "stop"],
+        "": ["0", "right", "stop"]
+    },
+    "stop": {}  // Don't do anything else.
+};
